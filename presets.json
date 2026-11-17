@@ -1,0 +1,13 @@
+// 内置窗口尺寸。宽高按竖屏写，横屏时程序自动对调。
+// name 是兜底名；界面优先用 locales 里的 size.<id> 翻译。
+// width/height 是实际像素，dpi 决定 App 按多大的屏幕来排版：
+//   排版宽度（dp）= width ÷ (dpi ÷ 160)
+// iPhone 的做法是 逻辑点 × 3 = 像素，对应 dpi 480，这样 App 看到的屏幕宽度和 iPhone 一致。
+[
+  { "id": "iphone-17",         "name": "iPhone 17",         "width": 1206, "height": 2622, "dpi": 480 },
+  { "id": "iphone-air",        "name": "iPhone Air",        "width": 1260, "height": 2736, "dpi": 480 },
+  { "id": "iphone-17-pro-max", "name": "iPhone 17 Pro Max", "width": 1320, "height": 2868, "dpi": 480 },
+  { "id": "pixel-10",          "name": "Pixel 10",          "width": 1080, "height": 2424, "dpi": 420 },
+  { "id": "ipad-air-11",       "name": "iPad Air 11-inch",  "width": 1640, "height": 2360, "dpi": 320 },
+  { "id": "desktop-1080p",     "name": "Desktop 1080p",     "width": 1080, "height": 1920, "dpi": 240 },
+]

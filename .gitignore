@@ -1,0 +1,9 @@
+node_modules/
+dist/
+release/
+vendor/
+# 发布隔离：私人笔记、密钥、本机设置都不进 git
+.private/
+.env
+.env.*
+!.env.example

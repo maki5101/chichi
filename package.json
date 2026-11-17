@@ -1,0 +1,127 @@
+{
+  "name": "chichi",
+  "productName": "chichi",
+  "version": "0.1.0",
+  "description": "Open individual Android apps as desktop windows on Linux (scrcpy virtual displays)",
+  "author": {
+    "name": "maki"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/maki5101/chichi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maki5101/chichi.git"
+  },
+  "private": true,
+  "main": "dist/main/main.js",
+  "desktopName": "chichi.desktop",
+  "scripts": {
+    "build": "tsc -p . && cp src/renderer/index.html src/renderer/style.css dist/renderer/ && cp presets.json dist/ && rm -rf dist/locales && cp -r locales dist/",
+    "start": "npm run build && electron .",
+    "test": "npm run build && node --test test/*.test.js",
+    "install-desktop": "npm run build && bash scripts/install-desktop.sh",
+    "dist": "npm test && electron-builder --linux deb AppImage",
+    "dist:win": "bash scripts/fetch-scrcpy-win.sh && npm test && electron-builder --win nsis --x64"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "typescript": "^7.0.2"
+  },
+  "build": {
+    "appId": "io.github.maki5101.chichi",
+    "productName": "chichi",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "executableName": "chichi",
+      "icon": "assets/icon.png",
+      "category": "Utility",
+      "synopsis": "Open individual Android apps as desktop windows",
+      "description": "Uses scrcpy virtual displays to open single Android apps as independent windows on the Linux desktop.",
+      "maintainer": "maki",
+      "desktop": {
+        "entry": {
+          "Name": "chichi",
+          "Name[zh_CN]": "琪琪",
+          "Name[zh_TW]": "琪琪",
+          "Name[zh_HK]": "琪琪",
+          "Name[ja]": "琪琪",
+          "GenericName": "Phone app windows",
+          "Comment": "Open individual Android apps as desktop windows",
+          "GenericName[zh_CN]": "手机应用窗口",
+          "Comment[zh_CN]": "把手机里的单个应用开成独立窗口",
+          "GenericName[zh_TW]": "手機 App 視窗",
+          "Comment[zh_TW]": "把手機裡的單一 App 開成獨立視窗",
+          "GenericName[zh_HK]": "手機 App 視窗",
+          "Comment[zh_HK]": "把手機裡的單一 App 開成獨立視窗",
+          "GenericName[ja]": "スマホアプリのウィンドウ",
+          "Comment[ja]": "スマホのアプリを個別のウィンドウで開く",
+          "GenericName[ko]": "휴대폰 앱 창",
+          "Comment[ko]": "휴대폰 앱을 각각 독립된 창으로 열기",
+          "GenericName[de]": "Handy-App-Fenster",
+          "Comment[de]": "Einzelne Handy-Apps in eigenen Fenstern öffnen",
+          "GenericName[fr]": "Fenêtres d’apps du téléphone",
+          "Comment[fr]": "Ouvrir chaque app du téléphone dans sa propre fenêtre",
+          "GenericName[it]": "Finestre delle app del telefono",
+          "Comment[it]": "Aprire le singole app del telefono in finestre proprie",
+          "GenericName[es]": "Ventanas de apps del teléfono",
+          "Comment[es]": "Abrir cada app del teléfono en su propia ventana",
+          "GenericName[ar]": "نوافذ تطبيقات الهاتف",
+          "Comment[ar]": "فتح كل تطبيق من الهاتف في نافذة مستقلة",
+          "Keywords": "chichi;琪琪;phone;android;scrcpy;手机;安卓;",
+          "StartupWMClass": "chichi"
+        }
+      }
+    },
+    "deb": {
+      "recommends": [
+        "adb",
+        "nmap"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "executableName": "chichi",
+      "extraResources": [
+        {
+          "from": "vendor/scrcpy-win",
+          "to": "scrcpy",
+          "filter": [
+            "**/*",
+            "!.version"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "chichi",
+      "artifactName": "chichi-Setup-${version}.exe",
+      "license": "LICENSE"
+    }
+  }
+}

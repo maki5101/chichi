@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- 靛蓝底 + 手机轮廓 + 常用列表的三个彩色圆点 -->
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="#3346B8"/>
+  <rect x="74" y="36" width="108" height="184" rx="20" fill="#F2F3F0"/>
+  <rect x="112" y="46" width="32" height="6" rx="3" fill="#C9CEC8"/>
+  <circle cx="98" cy="96" r="9" fill="#E0685A"/>
+  <rect x="116" y="91" width="50" height="10" rx="5" fill="#5F6863"/>
+  <circle cx="98" cy="132" r="9" fill="#4C86D9"/>
+  <rect x="116" y="127" width="40" height="10" rx="5" fill="#5F6863"/>
+  <circle cx="98" cy="168" r="9" fill="#5DAE6B"/>
+  <rect x="116" y="163" width="46" height="10" rx="5" fill="#5F6863"/>
+</svg>

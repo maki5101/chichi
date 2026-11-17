@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'">
+  <title>chichi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<!-- 文字全部来自 locales/*.json：data-i18n 填正文，data-i18n-placeholder / -aria-label 填对应属性 -->
+<body>
+  <header class="top">
+    <h1 class="brand" data-i18n="app.name">chichi</h1>
+    <div class="device" id="device" aria-live="polite"></div>
+  </header>
+
+  <nav class="tabs" role="tablist" data-i18n-aria-label="aria.views">
+    <button class="tab" role="tab" id="tab-home" data-view="home" aria-selected="true" data-i18n="tab.home"></button>
+    <button class="tab" role="tab" id="tab-settings" data-view="settings" aria-selected="false" data-i18n="tab.settings"></button>
+  </nav>
+
+  <main class="views">
+    <!-- 常用：点一行展开它的设置和启动按钮 -->
+    <section class="view" id="view-home" role="tabpanel" aria-labelledby="tab-home">
+      <div class="banner" id="home-banner" hidden></div>
+      <div class="quick">
+        <div class="mirror" id="home-mirror"></div>
+        <div class="mirror" id="home-desktop"></div>
+        <div class="route-row">
+          <span class="route-label" data-i18n="route.label"></span>
+          <div class="seg" role="group" data-i18n-aria-label="aria.audioRoute" id="home-route"></div>
+        </div>
+      </div>
+      <ul class="app-list" id="home-list"></ul>
+      <div class="empty" id="home-empty" hidden>
+        <p class="empty-title" data-i18n="home.emptyTitle"></p>
+        <p class="empty-text" data-i18n="home.emptyText"></p>
+        <button class="btn btn-primary" id="goto-apps" data-i18n="home.emptyButton"></button>
+      </div>
+    </section>
+
+    <!-- 设置：语言 + 四个小栏 -->
+    <section class="view" id="view-settings" role="tabpanel" aria-labelledby="tab-settings" hidden>
+      <label class="language-row">
+        <span data-i18n="language.label"></span>
+        <select class="input" id="opt-language"></select>
+      </label>
+      <div class="language-row">
+        <span data-i18n="theme.label"></span>
+        <div class="seg" role="group" data-i18n-aria-label="theme.label" id="opt-theme"></div>
+      </div>
+
+      <div class="subtabs" role="tablist" data-i18n-aria-label="aria.settingsTabs">
+        <button class="subtab" role="tab" id="sub-apps" data-sub="apps" aria-selected="true" data-i18n="sub.apps"></button>
+        <button class="subtab" role="tab" id="sub-window" data-sub="window" aria-selected="false" data-i18n="sub.window"></button>
+        <button class="subtab" role="tab" id="sub-audio" data-sub="audio" aria-selected="false" data-i18n="sub.audio"></button>
+        <button class="subtab" role="tab" id="sub-connect" data-sub="connect" aria-selected="false" data-i18n="sub.connect"></button>
+      </div>
+
+      <!-- 应用：挑选常用应用 -->
+      <div class="subview" id="subview-apps">
+        <p class="for-device"></p>
+        <div class="group" id="copy-group" hidden>
+          <h2 class="group-title" data-i18n="copy.title"></h2>
+          <p class="hint" data-i18n="copy.hint"></p>
+          <div class="toolbar">
+            <select class="input" id="copy-from"></select>
+            <button class="btn" id="copy-go"></button>
+          </div>
+        </div>
+        <div class="group">
+          <h2 class="group-title"><span data-i18n="apps.title"></span> <span class="count" id="apps-count"></span></h2>
+          <p class="hint" data-i18n="apps.hint"></p>
+          <div class="toolbar">
+            <input class="input search" id="app-search" type="search" data-i18n-placeholder="apps.search" autocomplete="off">
+            <button class="btn" id="apps-refresh" data-i18n="apps.refresh"></button>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="show-system">
+            <span data-i18n="apps.showSystem"></span>
+          </label>
+          <ul class="catalog" id="catalog"></ul>
+        </div>
+      </div>
+
+      <!-- 窗口 -->
+      <div class="subview" id="subview-window" hidden>
+        <p class="for-device"></p>
+        <div class="group">
+          <h2 class="group-title" data-i18n="size.title"></h2>
+          <p class="hint" data-i18n="size.hint"></p>
+          <div class="size-picker">
+            <select class="input" id="default-size"></select>
+            <figure class="size-preview" id="default-size-preview"></figure>
+          </div>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="custom.title"></h2>
+          <ul class="custom-list" id="custom-list"></ul>
+          <form class="custom-form" id="custom-form">
+            <label class="field field-wide">
+              <span data-i18n="custom.name"></span>
+              <input class="input" id="custom-name" data-i18n-placeholder="custom.namePlaceholder" required>
+            </label>
+            <label class="field">
+              <span data-i18n="custom.width"></span>
+              <input class="input" id="custom-width" type="number" min="200" max="8000" placeholder="1080" required>
+            </label>
+            <label class="field">
+              <span data-i18n="custom.height"></span>
+              <input class="input" id="custom-height" type="number" min="200" max="8000" placeholder="2400" required>
+            </label>
+            <label class="field">
+              <span data-i18n="custom.dpi"></span>
+              <input class="input" id="custom-dpi" type="number" min="80" max="800" placeholder="420" required>
+            </label>
+            <p class="hint field-wide" id="custom-calc"></p>
+            <button class="btn field-wide" type="submit" data-i18n="custom.add"></button>
+          </form>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="input.title"></h2>
+          <label class="field">
+            <span data-i18n="input.keyboard"></span>
+            <select class="input" id="opt-keyboard">
+              <option value="sdk" data-i18n="input.keyboardSdk"></option>
+              <option value="uhid" data-i18n="input.keyboardUhid"></option>
+            </select>
+          </label>
+          <p class="hint" id="opt-keyboard-hint"></p>
+          <label class="field">
+            <span data-i18n="input.ime"></span>
+            <select class="input" id="opt-ime">
+              <option value="local" data-i18n="input.imeLocal"></option>
+              <option value="fallback" data-i18n="input.imeFallback"></option>
+              <option value="hide" data-i18n="input.imeHide"></option>
+            </select>
+          </label>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="phone.title"></h2>
+          <label class="check">
+            <input type="checkbox" id="opt-wake">
+            <span data-i18n="phone.wake"></span>
+          </label>
+          <p class="hint" data-i18n="phone.wakeHint"></p>
+          <label class="check">
+            <input type="checkbox" id="opt-stay">
+            <span data-i18n="phone.stay"></span>
+          </label>
+          <p class="hint" data-i18n="phone.stayHint"></p>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="advanced.title"></h2>
+          <label class="field">
+            <span data-i18n="advanced.extraArgs"></span>
+            <input class="input mono" id="opt-extra" data-i18n-placeholder="advanced.extraArgsPlaceholder" autocomplete="off" dir="ltr">
+          </label>
+        </div>
+      </div>
+
+      <!-- 声音 -->
+      <div class="subview" id="subview-audio" hidden>
+        <p class="for-device"></p>
+        <div class="group">
+          <h2 class="group-title" data-i18n="audio.title"></h2>
+          <div class="field">
+            <span data-i18n="audio.where"></span>
+            <div class="seg seg-wide" role="group" data-i18n-aria-label="aria.audioRoute" id="opt-route"></div>
+          </div>
+          <p class="hint" id="opt-route-hint"></p>
+          <div class="field">
+            <span data-i18n="audio.buffer"></span>
+            <div class="seg seg-wide" role="group" data-i18n-aria-label="aria.audioBuffer" id="opt-buffer"></div>
+          </div>
+          <p class="hint" id="opt-buffer-hint"></p>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="audio.closeTitle"></h2>
+          <label class="check">
+            <input type="checkbox" id="opt-pause">
+            <span data-i18n="audio.pause"></span>
+          </label>
+          <p class="hint" data-i18n="audio.pauseHint"></p>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="audio.multiTitle"></h2>
+          <p class="hint" data-i18n="audio.multiHint"></p>
+        </div>
+      </div>
+
+      <!-- 连接 -->
+      <div class="subview" id="subview-connect" hidden>
+        <div class="group" id="known-group" hidden>
+          <h2 class="group-title" data-i18n="wireless.knownTitle"></h2>
+          <p class="hint" data-i18n="wireless.knownHint"></p>
+          <ul class="custom-list" id="known-list"></ul>
+        </div>
+        <div class="group">
+          <h2 class="group-title" data-i18n="wireless.title"></h2>
+          <p class="hint" data-i18n="wireless.hint"></p>
+          <label class="field">
+            <span data-i18n="wireless.host"></span>
+            <input class="input" id="wl-host" data-i18n-placeholder="wireless.hostPlaceholder" autocomplete="off" dir="ltr">
+          </label>
+          <label class="field">
+            <span data-i18n="wireless.ports"></span>
+            <input class="input mono" id="wl-range" placeholder="32768-60999" autocomplete="off" dir="ltr">
+          </label>
+          <div class="row-between">
+            <span class="hint" id="wl-last"></span>
+            <button class="btn btn-primary" id="wl-connect"></button>
+          </div>
+          <pre class="log" id="wl-log" aria-live="polite"></pre>
+        </div>
+
+        <div class="group">
+          <h2 class="group-title" data-i18n="tools.title"></h2>
+          <p class="hint" data-i18n="tools.hint"></p>
+          <label class="field">
+            <span>adb</span>
+            <input class="input mono" id="tool-adb" autocomplete="off" dir="ltr">
+          </label>
+          <label class="field">
+            <span>scrcpy</span>
+            <input class="input mono" id="tool-scrcpy" autocomplete="off" dir="ltr">
+          </label>
+          <div class="row-between">
+            <div class="tool-status" id="tool-status"></div>
+            <button class="btn" id="tool-check" data-i18n="tools.check"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="status" id="status" role="status" aria-live="polite"></footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

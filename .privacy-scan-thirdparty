@@ -1,0 +1,15 @@
+# 第三方文件：只查密钥、本机身份和 .private/patterns，不查任意邮箱 / 任意 /home/ 路径 / Tailscale 地址段。
+# 规则见 tools/privacy_scan.py。只放别人的东西，自己写的文件不许放进来。
+
+# npm 生成的锁文件：里面有依赖包作者写在弃用提示里的邮箱
+package-lock.json
+
+# Chromium 自带的开源许可证汇总：成千上万个开源作者的邮箱
+*/LICENSES.chromium.html
+
+# 随 Windows 包分发的 scrcpy（官方构建，SHA256 已核对）：DLL 里有它编译服务器的 /home/runner/ 路径  privacy-scan:allow
+*/resources/scrcpy/*
+
+# Electron 本体（只是改了名）：二进制里有 Chromium 的内部网址路径 /home/privacy/  privacy-scan:allow
+*/linux-unpacked/chichi
+*/win-unpacked/chichi.exe
